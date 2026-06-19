@@ -873,40 +873,127 @@ code { background: white; border: 1px solid var(--border); padding: 2px 8px; bor
   .stats-grid { grid-template-columns: 1fr; }
 }
 /* =========================
-   DARK MODE
+   PROFESSIONAL DARK MODE
 ========================= */
 
 .dark-mode {
-    background-color: #0f172a !important;
-    color: #f8fafc !important;
+  --bg: #0F172A;
+  --surface: #1E293B;
+  --border: #334155;
+  --text: #F8FAFC;
+  --text-muted: #CBD5E1;
+
+  --primary-light: rgba(37,99,235,0.15);
+
+  --success-bg: rgba(5,150,105,0.15);
+  --warning-bg: rgba(217,119,6,0.15);
+  --danger-bg: rgba(220,38,38,0.15);
+  --purple-bg: rgba(124,58,237,0.15);
 }
 
-.dark-mode .sidebar {
-    background: #111827 !important;
+/* Main Layout */
+.dark-mode body,
+.dark-mode .page-content {
+  background: var(--bg);
+  color: var(--text);
 }
 
 .dark-mode .topbar {
-    background: #1e293b !important;
+  background: var(--surface);
+  border-color: var(--border);
 }
 
-.dark-mode .page-content {
-    background: #0f172a !important;
+.dark-mode .sidebar {
+  background: #0B1220;
 }
 
-.dark-mode .card,
-.dark-mode .login-card {
-    background: #1e293b !important;
-    color: white !important;
+/* Cards */
+.dark-mode .section-card,
+.dark-mode .chart-card,
+.dark-mode .activity-card,
+.dark-mode .info-card,
+.dark-mode .login-card,
+.dark-mode .stat-card,
+.dark-mode .att-date-card,
+.dark-mode .att-status-card {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
 }
 
-.dark-mode .table {
-    color: white !important;
+/* Headings */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode .page-heading,
+.dark-mode .topbar-title,
+.dark-mode .section-title {
+  color: var(--text);
 }
 
-.dark-mode input,
+/* Paragraphs & Labels */
+.dark-mode p,
+.dark-mode label,
+.dark-mode .page-sub,
+.dark-mode .form-label-styled,
+.dark-mode .user-role,
+.dark-mode .hint-title,
+.dark-mode .hint-row {
+  color: var(--text-muted);
+}
+
+/* Forms */
+.dark-mode .form-control,
+.dark-mode .search-input,
 .dark-mode select,
-.dark-mode textarea {
-    background: #334155 !important;
-    color: white !important;
-    border-color: #475569 !important;
+.dark-mode textarea,
+.dark-mode input {
+  background: #334155;
+  color: white;
+  border-color: #475569;
+}
+
+.dark-mode .form-control::placeholder,
+.dark-mode textarea::placeholder {
+  color: #94A3B8;
+}
+
+/* Tables */
+.dark-mode .data-table th {
+  background: #1A2435;
+  color: var(--text-muted);
+}
+
+.dark-mode .data-table td {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.dark-mode .data-table tr:hover td {
+  background: #273549;
+}
+
+/* Upload Area */
+.dark-mode .file-upload-area {
+  background: #1A2435;
+  border-color: #475569;
+}
+
+/* Code Blocks */
+.dark-mode code {
+  background: #334155;
+  color: white;
+  border-color: #475569;
+}
+
+/* Buttons */
+.dark-mode .btn-outline-action,
+.dark-mode .btn-cancel {
+  border-color: #475569;
+  color: white;
+}
+
+.dark-mode .btn-outline-action:hover {
+  border-color: var(--primary);
 }
