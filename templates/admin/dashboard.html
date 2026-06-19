@@ -176,27 +176,63 @@ const leaveDistCounts = {{ leave_dist | map(attribute='cnt') | list | tojson }};
 
 const ctx1 = document.getElementById('adminAttChart')?.getContext('2d');
 if (ctx1) {
+  const gradient = ctx1.createLinearGradient(0, 0, 0, 300);
+
+  gradient.addColorStop(0, 'rgba(37,99,235,0.35)');
+  gradient.addColorStop(1, 'rgba(37,99,235,0)');
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   new Chart(ctx1, {
     type: 'line',
     data: {
       labels: days,
       datasets: [{
-        label: 'Present',
-        data: [3, 3, 2, 3, 3, 1, 0],
+        label: 'Attendance %',
+        data: [92, 95, 97, 96, 94, 98, 96],
         borderColor: '#2563EB',
-        backgroundColor: 'rgba(37,99,235,0.08)',
+        backgroundColor: gradient,
         fill: true,
-        tension: 0.4,
+        tension: 0.45,
         pointBackgroundColor: '#2563EB',
-        pointRadius: 5
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        borderWidth: 3
       }]
     },
     options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: { y: { min: 0, ticks: { stepSize: 1 } }, x: { grid: { display: false } } }
+  responsive: true,
+  maintainAspectRatio: false,
+
+  plugins: {
+    legend: {
+      display: false
     }
+  },
+
+  scales: {
+
+    y: {
+      min: 80,
+      max: 100,
+
+      ticks: {
+        callback: function(value){
+          return value + '%';
+        }
+      },
+
+      grid: {
+        color: 'rgba(148,163,184,0.15)'
+      }
+    },
+
+    x: {
+      grid: {
+        display: false
+      }
+    }
+
+  }
+}
   });
 }
 
