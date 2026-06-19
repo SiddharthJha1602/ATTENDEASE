@@ -872,3 +872,41 @@ code { background: white; border: 1px solid var(--border); padding: 2px 8px; bor
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr; }
 }
+/* =========================
+   DARK MODE
+========================= */
+
+.dark-mode {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+.dark-mode .sidebar {
+    background: #111827 !important;
+}
+
+.dark-mode .topbar {
+    background: #1e293b !important;
+}
+
+.dark-mode .page-content {
+    background: #0f172a !important;
+}
+
+.dark-mode .card,
+.dark-mode .login-card {
+    background: #1e293b !important;
+    color: white !important;
+}
+
+.dark-mode .table {
+    color: white !important;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+    background: #334155 !important;
+    color: white !important;
+    border-color: #475569 !important;
+}
