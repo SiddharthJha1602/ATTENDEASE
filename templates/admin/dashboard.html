@@ -49,12 +49,20 @@
       {% if pending_requests > 0 %}<span class="trend-alert">Needs review</span>{% else %}All clear{% endif %}
     </div>
   </div>
-  <div class="stat-card stat-purple">
-    <div class="stat-icon"><i class="bi bi-check-all"></i></div>
-    <div class="stat-body">
-      <div class="stat-value">{{ approved_requests }}</div>
-      <div class="stat-label">Approved Leaves</div>
-    </div>
+<div class="stat-card stat-purple">
+  <div class="stat-icon">
+    <i class="bi bi-graph-up-arrow"></i>
+  </div>
+
+  <div class="stat-body">
+    <div class="stat-value">96%</div>
+    <div class="stat-label">Attendance Rate</div>
+  </div>
+
+  <div class="stat-trend">
+    <i class="bi bi-arrow-up-right"></i> +2% this week
+  </div>
+</div>
     <div class="stat-trend"><i class="bi bi-check2-all"></i> Total approved</div>
   </div>
 </div>
