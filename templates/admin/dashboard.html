@@ -263,7 +263,58 @@ if (ctx2 && leaveDistData.length > 0) {
       cutout: '65%',
       plugins: { legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } } }
     }
+  });const deptCtx = document.getElementById('deptChart');
+
+if (deptCtx) {
+
+  new Chart(deptCtx, {
+
+    type: 'doughnut',
+
+    data: {
+
+      labels: [
+        'Engineering',
+        'HR',
+        'Sales',
+        'Finance'
+      ],
+
+      datasets: [{
+
+        data: [45, 15, 25, 15],
+
+        backgroundColor: [
+          '#2563EB',
+          '#7C3AED',
+          '#10B981',
+          '#F59E0B'
+        ],
+
+        borderWidth: 0
+
+      }]
+    },
+
+    options: {
+
+      responsive: true,
+
+      cutout: '70%',
+
+      plugins: {
+
+        legend: {
+          position: 'bottom'
+        }
+
+      }
+
+    }
+
   });
+
+}
 }
 </script>
 {% endblock %}
