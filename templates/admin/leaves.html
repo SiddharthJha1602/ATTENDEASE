@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Leave Requests{% endblock %}
+{% block page_title %}Leave Requests{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Leave Requests</h1>
+    <p class="page-sub">Review and manage employee leave applications</p>
+  </div>
+  {% set pending = leaves | selectattr('status', 'equalto', 'Pending') | list | length %}
+  {% if pending > 0 %}
+  <div class="pending-alert">
+    <i class="bi bi-exclamation-circle-fill"></i> {{ pending }} request{{ 's' if pending > 1 else '' }} awaiting review
+  </div>
+  {% endif %}
+</div>
+
+<!-- Tabs -->
+<div class="tab-filter">
+  <button class="tab-btn active" onclick="filterLeaves('all', this)">All <span class="tab-count">{{ leaves | length }}</span></button>
+  <button class="tab-btn" onclick="filterLeaves('Pending', this)">Pending <span class="tab-count">{{ pending }}</span></button>
+  <button class="tab-btn" onclick="filterLeaves('Approved', this)">Approved <span class="tab-count">{{ leaves | selectattr('status', 'equalto', 'Approved') | list | length }}</span></button>
+  <button class="tab-btn" onclick="filterLeaves('Rejected', this)">Rejected <span class="tab-count">{{ leaves | selectattr('status', 'equalto', 'Rejected') | list | length }}</span></button>
+</div>
+
+<div class="section-card">
+  {% if leaves %}
+  <div class="table-responsive">
+    <table class="data-table" id="leaveAdminTable">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Department</th>
+          <th>Leave Type</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Reason</th>
+          <th>Document</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for l in leaves %}
+        <tr data-status="{{ l.status }}">
+          <td>
+            <div class="emp-cell">
+              <div class="emp-avatar">{{ l.full_name[0] }}</div>
+              <div>
+                <div class="fw-600">{{ l.full_name }}</div>
+                <div class="text-muted small">Applied {{ l.applied_date }}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="dept-tag">{{ l.department }}</span></td>
+          <td>
+            <div class="leave-type-cell">
+              <span class="leave-dot {% if l.leave_type == 'Casual Leave' %}dot-blue{% elif l.leave_type == 'Sick Leave' %}dot-red{% else %}dot-orange{% endif %}"></span>
+              {{ l.leave_type }}
+            </div>
+          </td>
+          <td>{{ l.start_date }}</td>
+          <td>{{ l.end_date }}</td>
+          <td>
+            <div class="reason-cell" title="{{ l.reason }}">{{ l.reason[:40] }}{% if l.reason | length > 40 %}…{% endif %}</div>
+          </td>
+          <td>
+            {% if l.document_path %}
+            <a href="/uploads/{{ l.document_path }}" target="_blank" class="doc-link">
+              <i class="bi bi-paperclip"></i> View
+            </a>
+            {% else %}
+            <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+          <td>
+            <span class="badge-status {% if l.status=='Approved' %}badge-approved{% elif l.status=='Rejected' %}badge-rejected{% else %}badge-pending{% endif %}">
+              {{ l.status }}
+            </span>
+          </td>
+          <td>
+            {% if l.status == 'Pending' %}
+            <div class="action-btns">
+              <a href="{{ url_for('leave_action', leave_id=l.id, action='approve') }}"
+                 onclick="return confirm('Approve this leave request?')"
+                 class="btn-approve">
+                <i class="bi bi-check-lg"></i> Approve
+              </a>
+              <a href="{{ url_for('leave_action', leave_id=l.id, action='reject') }}"
+                 onclick="return confirm('Reject this leave request?')"
+                 class="btn-reject">
+                <i class="bi bi-x-lg"></i> Reject
+              </a>
+            </div>
+            {% else %}
+            <span class="text-muted small">Reviewed</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="bi bi-inbox"></i>
+    <p>No leave requests found</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function filterLeaves(status, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const rows = document.querySelectorAll('#leaveAdminTable tbody tr');
+  rows.forEach(r => {
+    const s = r.dataset.status;
+    r.style.display = (status === 'all' || s === status) ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}

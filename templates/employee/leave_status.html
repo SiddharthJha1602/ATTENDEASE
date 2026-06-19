@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Leave Status{% endblock %}
+{% block page_title %}Leave Status{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Leave Status</h1>
+    <p class="page-sub">Track all your leave requests and their current status</p>
+  </div>
+  <a href="{{ url_for('apply_leave') }}" class="btn-primary-action">
+    <i class="bi bi-plus-lg"></i> New Request
+  </a>
+</div>
+
+<!-- Summary Badges -->
+<div class="status-summary">
+  {% set pending = leaves | selectattr('status', 'equalto', 'Pending') | list | length %}
+  {% set approved = leaves | selectattr('status', 'equalto', 'Approved') | list | length %}
+  {% set rejected = leaves | selectattr('status', 'equalto', 'Rejected') | list | length %}
+  <div class="status-pill pill-total">All: <strong>{{ leaves | length }}</strong></div>
+  <div class="status-pill pill-pending">Pending: <strong>{{ pending }}</strong></div>
+  <div class="status-pill pill-approved">Approved: <strong>{{ approved }}</strong></div>
+  <div class="status-pill pill-rejected">Rejected: <strong>{{ rejected }}</strong></div>
+</div>
+
+<div class="section-card">
+  <div class="section-card-header">
+    <h3>My Leave Requests</h3>
+    <div class="table-controls">
+      <input type="text" id="searchInput" placeholder="Search leaves..." class="search-input">
+    </div>
+  </div>
+  {% if leaves %}
+  <div class="table-responsive">
+    <table class="data-table" id="leaveTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">ID <i class="bi bi-chevron-expand sort-icon"></i></th>
+          <th onclick="sortTable(1)">Leave Type <i class="bi bi-chevron-expand sort-icon"></i></th>
+          <th onclick="sortTable(2)">Start Date <i class="bi bi-chevron-expand sort-icon"></i></th>
+          <th onclick="sortTable(3)">End Date <i class="bi bi-chevron-expand sort-icon"></i></th>
+          <th onclick="sortTable(4)">Applied On <i class="bi bi-chevron-expand sort-icon"></i></th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="leaveBody">
+        {% for l in leaves %}
+        <tr>
+          <td><code>#{{ l.id }}</code></td>
+          <td>
+            <div class="leave-type-cell">
+              <span class="leave-dot {% if l.leave_type == 'Casual Leave' %}dot-blue{% elif l.leave_type == 'Sick Leave' %}dot-red{% else %}dot-orange{% endif %}"></span>
+              {{ l.leave_type }}
+            </div>
+          </td>
+          <td>{{ l.start_date }}</td>
+          <td>{{ l.end_date }}</td>
+          <td>{{ l.applied_date }}</td>
+          <td>
+            <span class="badge-status {% if l.status=='Approved' %}badge-approved{% elif l.status=='Rejected' %}badge-rejected{% else %}badge-pending{% endif %}">
+              <i class="bi bi-{{ 'check-circle' if l.status=='Approved' else 'x-circle' if l.status=='Rejected' else 'clock' }}-fill me-1"></i>
+              {{ l.status }}
+            </span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Pagination -->
+  <div class="table-footer">
+    <span class="table-count" id="rowCount">Showing {{ leaves | length }} records</span>
+    <div class="pagination-controls" id="pagination"></div>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="bi bi-inbox"></i>
+    <p>No leave requests found</p>
+    <a href="{{ url_for('apply_leave') }}" class="btn-primary-action mt-3">Apply for Leave</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Search
+document.getElementById('searchInput')?.addEventListener('input', function() {
+  const val = this.value.toLowerCase();
+  const rows = document.querySelectorAll('#leaveBody tr');
+  rows.forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+});
+
+// Sort
+let sortDir = {};
+function sortTable(col) {
+  const table = document.getElementById('leaveTable');
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  sortDir[col] = !sortDir[col];
+  rows.sort((a, b) => {
+    const aVal = a.cells[col].textContent.trim();
+    const bVal = b.cells[col].textContent.trim();
+    return sortDir[col] ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+  const tbody = table.querySelector('tbody');
+  rows.forEach(r => tbody.appendChild(r));
+}
+</script>
+{% endblock %}

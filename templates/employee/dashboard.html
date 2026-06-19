@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Good {{ 'morning' if today.strftime('%H') < '12' else 'afternoon' }}, {{ session.full_name.split()[0] }} 👋</h1>
+    <p class="page-sub">Here's what's happening with your attendance today.</p>
+  </div>
+  <div class="header-actions">
+    {% if not today_att %}
+    <a href="{{ url_for('attendance') }}" class="btn-primary-action pulse-btn">
+      <i class="bi bi-fingerprint"></i> Mark Attendance
+    </a>
+    {% else %}
+    <div class="status-badge-header">
+      <i class="bi bi-check-circle-fill text-success"></i> Attendance Marked
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+  <div class="stat-card stat-blue">
+    <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ attendance_this_month }}</div>
+      <div class="stat-label">Attendance This Month</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-arrow-up-right"></i> This month</div>
+  </div>
+  <div class="stat-card stat-purple">
+    <div class="stat-icon"><i class="bi bi-send"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ leaves_applied }}</div>
+      <div class="stat-label">Leaves Applied</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-calendar2"></i> Total</div>
+  </div>
+  <div class="stat-card stat-orange">
+    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ pending_leaves }}</div>
+      <div class="stat-label">Pending Requests</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-clock"></i> Awaiting review</div>
+  </div>
+  <div class="stat-card stat-green">
+    <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ approved_leaves }}</div>
+      <div class="stat-label">Approved Leaves</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-check2"></i> This year</div>
+  </div>
+</div>
+
+<!-- Charts Row -->
+<div class="charts-row">
+  <div class="chart-card">
+    <div class="chart-header">
+      <h3>Monthly Attendance</h3>
+      <span class="chart-badge">{{ today.strftime('%B %Y') }}</span>
+    </div>
+    <canvas id="attendanceChart" height="200"></canvas>
+  </div>
+  <div class="chart-card chart-small">
+    <div class="chart-header">
+      <h3>Leave Distribution</h3>
+    </div>
+    <canvas id="leaveChart" height="200"></canvas>
+    {% if not leave_stats %}
+    <div class="chart-empty"><i class="bi bi-pie-chart"></i><p>No leaves applied yet</p></div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-section">
+  <h3 class="section-title">Quick Actions</h3>
+  <div class="quick-actions">
+    <a href="{{ url_for('attendance') }}" class="qa-card">
+      <div class="qa-icon qa-blue"><i class="bi bi-fingerprint"></i></div>
+      <span>Mark Attendance</span>
+    </a>
+    <a href="{{ url_for('apply_leave') }}" class="qa-card">
+      <div class="qa-icon qa-purple"><i class="bi bi-send-fill"></i></div>
+      <span>Apply Leave</span>
+    </a>
+    <a href="{{ url_for('leave_status') }}" class="qa-card">
+      <div class="qa-icon qa-green"><i class="bi bi-list-check"></i></div>
+      <span>Leave Status</span>
+    </a>
+  </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="activity-row">
+  <div class="activity-card">
+    <div class="activity-header">
+      <h3>Recent Attendance</h3>
+      <a href="{{ url_for('attendance') }}" class="view-all">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    {% if recent_attendance %}
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead><tr><th>Date</th><th>Check-in</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for a in recent_attendance %}
+          <tr>
+            <td>{{ a.date }}</td>
+            <td>{{ a.check_in or '—' }}</td>
+            <td><span class="badge-status badge-present">{{ a.status }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state"><i class="bi bi-calendar-x"></i><p>No attendance records yet</p></div>
+    {% endif %}
+  </div>
+  <div class="activity-card">
+    <div class="activity-header">
+      <h3>Recent Leaves</h3>
+      <a href="{{ url_for('leave_status') }}" class="view-all">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    {% if recent_leaves %}
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>Dates</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for l in recent_leaves %}
+          <tr>
+            <td>{{ l.leave_type }}</td>
+            <td>{{ l.start_date }}</td>
+            <td>
+              <span class="badge-status {% if l.status=='Approved' %}badge-approved{% elif l.status=='Rejected' %}badge-rejected{% else %}badge-pending{% endif %}">
+                {{ l.status }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state"><i class="bi bi-inbox"></i><p>No leave requests yet</p></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const monthlyData = {{ monthly_data | tojson }};
+const leaveStats = {{ leave_stats | map(attribute='leave_type') | list | tojson }};
+const leaveCounts = {{ leave_stats | map(attribute='cnt') | list | tojson }};
+
+// Monthly attendance bar chart
+const attCtx = document.getElementById('attendanceChart')?.getContext('2d');
+if (attCtx) {
+  new Chart(attCtx, {
+    type: 'bar',
+    data: {
+      labels: monthlyData.map(d => 'Day ' + d.day),
+      datasets: [{
+        label: 'Present',
+        data: monthlyData.map(d => d.present),
+        backgroundColor: monthlyData.map(d => d.present ? 'rgba(37,99,235,0.85)' : 'rgba(226,232,240,0.5)'),
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { display: false, max: 1.5 },
+        x: { grid: { display: false }, ticks: { maxTicksLimit: 10, font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// Leave doughnut chart
+const leaveCtx = document.getElementById('leaveChart')?.getContext('2d');
+if (leaveCtx && leaveStats.length > 0) {
+  new Chart(leaveCtx, {
+    type: 'doughnut',
+    data: {
+      labels: leaveStats,
+      datasets: [{
+        data: leaveCounts,
+        backgroundColor: ['#2563EB', '#7C3AED', '#F59E0B'],
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '65%',
+      plugins: { legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } } }
+    }
+  });
+}
+</script>
+{% endblock %}

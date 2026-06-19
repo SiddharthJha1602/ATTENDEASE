@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Apply Leave{% endblock %}
+{% block page_title %}Apply Leave{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Apply for Leave</h1>
+    <p class="page-sub">Submit a new leave request for approval</p>
+  </div>
+</div>
+
+<div class="form-layout">
+  <div class="form-main">
+    <div class="section-card">
+      <div class="section-card-header">
+        <h3><i class="bi bi-send me-2 text-primary"></i>Leave Request Form</h3>
+      </div>
+      <form method="POST" enctype="multipart/form-data" id="leaveForm" novalidate>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label-styled">Leave Type <span class="required">*</span></label>
+            <select name="leave_type" class="form-control styled-select" required>
+              <option value="" disabled selected>Select leave type</option>
+              <option value="Casual Leave">Casual Leave</option>
+              <option value="Sick Leave">Sick Leave</option>
+              <option value="Emergency Leave">Emergency Leave</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label-styled">Start Date <span class="required">*</span></label>
+            <input type="date" name="start_date" id="startDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label-styled">End Date <span class="required">*</span></label>
+            <input type="date" name="end_date" id="endDate" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label-styled">Reason <span class="required">*</span></label>
+          <textarea name="reason" class="form-control" rows="4" placeholder="Describe the reason for your leave (minimum 10 characters)..." required minlength="10" id="reasonField"></textarea>
+          <div class="char-count"><span id="charCount">0</span> characters (min 10)</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label-styled">Supporting Document <span class="required">*</span></label>
+          <div class="file-upload-area" id="uploadArea">
+            <input type="file" name="document" id="docUpload" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" class="file-input" required>
+            <div class="upload-placeholder">
+              <i class="bi bi-cloud-upload"></i>
+              <p>Drag & drop or <span>browse files</span></p>
+              <small>PDF, PNG, JPG, DOC — up to 5MB</small>
+            </div>
+            <div class="upload-preview" id="uploadPreview" style="display:none">
+              <i class="bi bi-file-earmark-check text-success"></i>
+              <span id="fileName"></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <a href="{{ url_for('employee_dashboard') }}" class="btn-cancel">Cancel</a>
+          <button type="submit" class="btn-primary-action" id="submitBtn">
+            <i class="bi bi-send"></i> Submit Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="form-sidebar">
+    <div class="info-card">
+      <h4><i class="bi bi-info-circle text-primary me-2"></i>Leave Policy</h4>
+      <ul class="policy-list">
+        <li><strong>Casual Leave:</strong> For personal reasons, planned activities</li>
+        <li><strong>Sick Leave:</strong> Medical conditions, doctor visits</li>
+        <li><strong>Emergency Leave:</strong> Urgent unforeseen situations</li>
+      </ul>
+    </div>
+    <div class="info-card info-card-warn">
+      <h4><i class="bi bi-exclamation-triangle text-warning me-2"></i>Important Notes</h4>
+      <ul class="policy-list">
+        <li>Apply at least 1 day in advance for casual leave</li>
+        <li>Medical certificate required for sick leave > 2 days</li>
+        <li>All fields and document upload are mandatory</li>
+        <li>Status will be updated within 24 hours</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('startDate').min = today;
+document.getElementById('endDate').min = today;
+
+document.getElementById('startDate').addEventListener('change', function() {
+  document.getElementById('endDate').min = this.value;
+});
+
+document.getElementById('reasonField').addEventListener('input', function() {
+  document.getElementById('charCount').textContent = this.value.length;
+});
+
+document.getElementById('docUpload').addEventListener('change', function() {
+  const preview = document.getElementById('uploadPreview');
+  const placeholder = document.querySelector('.upload-placeholder');
+  if (this.files[0]) {
+    document.getElementById('fileName').textContent = this.files[0].name;
+    preview.style.display = 'flex';
+    placeholder.style.display = 'none';
+  }
+});
+
+// Drag and drop
+const uploadArea = document.getElementById('uploadArea');
+['dragenter','dragover'].forEach(e => uploadArea.addEventListener(e, ev => { ev.preventDefault(); uploadArea.classList.add('drag-over'); }));
+['dragleave','drop'].forEach(e => uploadArea.addEventListener(e, ev => { ev.preventDefault(); uploadArea.classList.remove('drag-over'); }));
+uploadArea.addEventListener('drop', function(ev) {
+  const files = ev.dataTransfer.files;
+  if (files[0]) {
+    document.getElementById('docUpload').files = files;
+    document.getElementById('fileName').textContent = files[0].name;
+    document.getElementById('uploadPreview').style.display = 'flex';
+    document.querySelector('.upload-placeholder').style.display = 'none';
+  }
+});
+
+document.getElementById('leaveForm').addEventListener('submit', function(e) {
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  const reason = document.getElementById('reasonField').value;
+  if (start > end) { e.preventDefault(); alert('End date cannot be before start date.'); return; }
+  if (reason.length < 10) { e.preventDefault(); alert('Reason must be at least 10 characters.'); return; }
+});
+</script>
+{% endblock %}

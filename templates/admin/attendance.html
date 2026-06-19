@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Attendance Records{% endblock %}
+{% block page_title %}Attendance Records{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Attendance Records</h1>
+    <p class="page-sub">Monitor employee attendance across your organization</p>
+  </div>
+  <a href="{{ url_for('export_attendance') }}" class="btn-outline-action">
+    <i class="bi bi-download"></i> Export CSV
+  </a>
+</div>
+
+<div class="section-card">
+  <div class="section-card-header">
+    <h3>Filters</h3>
+  </div>
+  <form method="GET" class="filter-form">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Search Employee</label>
+        <div class="input-with-icon">
+          <i class="bi bi-search"></i>
+          <input type="text" name="search" value="{{ search }}" placeholder="Employee name..." class="form-control">
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Filter by Date</label>
+        <input type="date" name="date" value="{{ date_filter }}" class="form-control">
+      </div>
+      <div class="filter-actions">
+        <button type="submit" class="btn-primary-action"><i class="bi bi-funnel"></i> Filter</button>
+        <a href="{{ url_for('admin_attendance') }}" class="btn-cancel">Clear</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="section-card">
+  <div class="section-card-header">
+    <h3>Results</h3>
+    <span class="badge-count">{{ records | length }} records</span>
+  </div>
+  {% if records %}
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Employee</th>
+          <th>Department</th>
+          <th>Date</th>
+          <th>Check-in Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td class="text-muted">{{ loop.index }}</td>
+          <td>
+            <div class="emp-cell">
+              <div class="emp-avatar">{{ r.full_name[0] }}</div>
+              {{ r.full_name }}
+            </div>
+          </td>
+          <td><span class="dept-tag">{{ r.department }}</span></td>
+          <td><strong>{{ r.date }}</strong></td>
+          <td><i class="bi bi-clock text-primary me-1"></i>{{ r.check_in or '—' }}</td>
+          <td><span class="badge-status badge-present">{{ r.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="bi bi-calendar-x"></i>
+    <p>No records found for the selected filters</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

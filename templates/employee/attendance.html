@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Attendance{% endblock %}
+{% block page_title %}Attendance{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Attendance</h1>
+    <p class="page-sub">Track and manage your daily attendance</p>
+  </div>
+</div>
+
+<div class="attendance-hero">
+  <div class="att-date-card">
+    <div class="att-date-icon"><i class="bi bi-calendar2-week-fill"></i></div>
+    <div class="att-date-info">
+      <div class="att-day" id="attDay">{{ today.strftime('%A') }}</div>
+      <div class="att-date-val">{{ today.strftime('%d %B %Y') }}</div>
+    </div>
+    <div class="att-time" id="liveTime"></div>
+  </div>
+
+  <div class="att-status-card {% if today_att %}att-marked{% else %}att-unmarked{% endif %}">
+    {% if today_att %}
+    <div class="att-icon-big text-success"><i class="bi bi-check-circle-fill"></i></div>
+    <div class="att-status-info">
+      <div class="att-status-title">Attendance Marked</div>
+      <div class="att-status-sub">Checked in at {{ today_att.check_in }}</div>
+    </div>
+    {% else %}
+    <div class="att-icon-big text-warning"><i class="bi bi-clock-history"></i></div>
+    <div class="att-status-info">
+      <div class="att-status-title">Not Marked Yet</div>
+      <div class="att-status-sub">Mark your attendance for today</div>
+    </div>
+    <form method="POST" action="{{ url_for('attendance') }}" class="att-form">
+      <button type="submit" class="btn-mark-att">
+        <i class="bi bi-fingerprint"></i> Mark Attendance Now
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<!-- History -->
+<div class="section-card">
+  <div class="section-card-header">
+    <h3>Attendance History</h3>
+    <span class="badge-count">{{ history | length }} records</span>
+  </div>
+  {% if history %}
+  <div class="table-responsive">
+    <table class="data-table" id="attTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Check-in Time</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in history %}
+        <tr>
+          <td class="text-muted">{{ loop.index }}</td>
+          <td><strong>{{ a.date }}</strong></td>
+          <td>
+            {% set day_name = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] %}
+            <span class="text-muted">{{ a.date }}</span>
+          </td>
+          <td><i class="bi bi-clock text-primary me-1"></i>{{ a.check_in or '—' }}</td>
+          <td><span class="badge-status badge-present">{{ a.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <i class="bi bi-calendar-x"></i>
+    <p>No attendance records found</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateClock() {
+  const now = new Date();
+  const el = document.getElementById('liveTime');
+  if (el) el.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+{% endblock %}

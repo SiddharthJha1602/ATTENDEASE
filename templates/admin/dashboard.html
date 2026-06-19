@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1 class="page-heading">Admin Overview</h1>
+    <p class="page-sub">Manage your organization's attendance and leave requests</p>
+  </div>
+  <div class="header-actions">
+    <a href="{{ url_for('export_attendance') }}" class="btn-outline-action">
+      <i class="bi bi-download"></i> Export Report
+    </a>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid">
+  <div class="stat-card stat-blue">
+    <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ total_employees }}</div>
+      <div class="stat-label">Total Employees</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-person-check"></i> Active staff</div>
+  </div>
+  <div class="stat-card stat-green">
+    <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ attendance_today }}</div>
+      <div class="stat-label">Present Today</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-calendar2-check"></i> Today</div>
+  </div>
+  <div class="stat-card stat-orange">
+    <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ pending_requests }}</div>
+      <div class="stat-label">Pending Leaves</div>
+    </div>
+    <div class="stat-trend">
+      {% if pending_requests > 0 %}<span class="trend-alert">Needs review</span>{% else %}All clear{% endif %}
+    </div>
+  </div>
+  <div class="stat-card stat-purple">
+    <div class="stat-icon"><i class="bi bi-check-all"></i></div>
+    <div class="stat-body">
+      <div class="stat-value">{{ approved_requests }}</div>
+      <div class="stat-label">Approved Leaves</div>
+    </div>
+    <div class="stat-trend"><i class="bi bi-check2-all"></i> Total approved</div>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="charts-row">
+  <div class="chart-card">
+    <div class="chart-header">
+      <h3>Attendance Overview</h3>
+      <span class="chart-badge">Last 7 days</span>
+    </div>
+    <canvas id="adminAttChart" height="200"></canvas>
+  </div>
+  <div class="chart-card chart-small">
+    <div class="chart-header"><h3>Leave Distribution</h3></div>
+    <canvas id="adminLeaveChart" height="200"></canvas>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-section">
+  <h3 class="section-title">Quick Actions</h3>
+  <div class="quick-actions">
+    <a href="{{ url_for('admin_attendance') }}" class="qa-card">
+      <div class="qa-icon qa-blue"><i class="bi bi-table"></i></div>
+      <span>Attendance Records</span>
+    </a>
+    <a href="{{ url_for('admin_leaves') }}" class="qa-card">
+      <div class="qa-icon qa-orange"><i class="bi bi-file-earmark-text"></i></div>
+      <span>Leave Requests</span>
+      {% if pending_requests > 0 %}
+      <span class="qa-badge">{{ pending_requests }}</span>
+      {% endif %}
+    </a>
+    <a href="{{ url_for('export_attendance') }}" class="qa-card">
+      <div class="qa-icon qa-green"><i class="bi bi-download"></i></div>
+      <span>Export CSV</span>
+    </a>
+  </div>
+</div>
+
+<!-- Recent Data -->
+<div class="activity-row">
+  <div class="activity-card">
+    <div class="activity-header">
+      <h3>Recent Attendance</h3>
+      <a href="{{ url_for('admin_attendance') }}" class="view-all">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    {% if recent_attendance %}
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for a in recent_attendance %}
+          <tr>
+            <td>
+              <div class="emp-cell">
+                <div class="emp-avatar">{{ a.full_name[0] }}</div>
+                {{ a.full_name }}
+              </div>
+            </td>
+            <td><span class="dept-tag">{{ a.department }}</span></td>
+            <td>{{ a.date }}</td>
+            <td><span class="badge-status badge-present">{{ a.status }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="activity-card">
+    <div class="activity-header">
+      <h3>Pending Leave Requests</h3>
+      <a href="{{ url_for('admin_leaves') }}" class="view-all">View all <i class="bi bi-arrow-right"></i></a>
+    </div>
+    {% set pending_list = recent_leaves | selectattr('status', 'equalto', 'Pending') | list %}
+    {% if pending_list %}
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead><tr><th>Employee</th><th>Type</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for l in pending_list %}
+          <tr>
+            <td>{{ l.full_name }}</td>
+            <td>{{ l.leave_type }}</td>
+            <td><span class="badge-status badge-pending">Pending</span></td>
+            <td>
+              <div class="action-btns">
+                <a href="{{ url_for('leave_action', leave_id=l.id, action='approve') }}" class="btn-approve">Approve</a>
+                <a href="{{ url_for('leave_action', leave_id=l.id, action='reject') }}" class="btn-reject">Reject</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state"><i class="bi bi-check-all"></i><p>No pending leave requests</p></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const leaveDistData = {{ leave_dist | map(attribute='leave_type') | list | tojson }};
+const leaveDistCounts = {{ leave_dist | map(attribute='cnt') | list | tojson }};
+
+const ctx1 = document.getElementById('adminAttChart')?.getContext('2d');
+if (ctx1) {
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: days,
+      datasets: [{
+        label: 'Present',
+        data: [3, 3, 2, 3, 3, 1, 0],
+        borderColor: '#2563EB',
+        backgroundColor: 'rgba(37,99,235,0.08)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#2563EB',
+        pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { min: 0, ticks: { stepSize: 1 } }, x: { grid: { display: false } } }
+    }
+  });
+}
+
+const ctx2 = document.getElementById('adminLeaveChart')?.getContext('2d');
+if (ctx2 && leaveDistData.length > 0) {
+  new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+      labels: leaveDistData,
+      datasets: [{ data: leaveDistCounts, backgroundColor: ['#2563EB','#7C3AED','#F59E0B'], borderWidth: 0 }]
+    },
+    options: {
+      responsive: true,
+      cutout: '65%',
+      plugins: { legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } } }
+    }
+  });
+}
+</script>
+{% endblock %}
