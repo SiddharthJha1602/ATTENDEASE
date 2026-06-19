@@ -95,20 +95,30 @@ except:
                     pass
 
     # Sample leave requests
+# Sample leave requests
 abhishek_id = db.execute("SELECT id FROM users WHERE username='abhishek'").fetchone()
 yash_id = db.execute("SELECT id FROM users WHERE username='yash'").fetchone()
 siddharth_id = db.execute("SELECT id FROM users WHERE username='siddharth'").fetchone()
 
-    if sarah_id and mike_id and emp2_id:
-        try:
-            db.execute("INSERT INTO leave_requests (user_id, leave_type, start_date, end_date, reason, status, applied_date) VALUES (?,?,?,?,?,?,?)",
-                       (sarah_id['id'], 'Casual Leave', '2024-06-15', '2024-06-17', 'Family function', 'Approved', '2024-06-10'))
-            db.execute("INSERT INTO leave_requests (user_id, leave_type, start_date, end_date, reason, status, applied_date) VALUES (?,?,?,?,?,?,?)",
-                       (mike_id['id'], 'Sick Leave', '2024-06-18', '2024-06-19', 'Fever and cold', 'Pending', '2024-06-17'))
-            db.execute("INSERT INTO leave_requests (user_id, leave_type, start_date, end_date, reason, status, applied_date) VALUES (?,?,?,?,?,?,?)",
-                       (emp2_id['id'], 'Emergency Leave', '2024-06-20', '2024-06-20', 'Personal emergency', 'Rejected', '2024-06-19'))
-        except:
-            pass
+if abhishek_id and yash_id and siddharth_id:
+    try:
+        db.execute(
+            "INSERT INTO leave_requests (user_id, leave_type, start_date, end_date, reason, status, applied_date) VALUES (?,?,?,?,?,?,?)",
+            (abhishek_id['id'], 'Casual Leave', '2024-06-15', '2024-06-17', 'Family function', 'Approved', '2024-06-10')
+        )
+
+        db.execute(
+            "INSERT INTO leave_requests (user_id, leave_type, start_date, end_date, reason, status, applied_date) VALUES (?,?,?,?,?,?,?)",
+            (yash_id['id'], 'Sick Leave', '2024-06-18', '2024-06-19', 'Fever and cold', 'Pending', '2024-06-17')
+        )
+
+        db.execute(
+            "INSERT INTO leave_requests (user_id, leave_type, start_date, end_date, reason, status, applied_date) VALUES (?,?,?,?,?,?,?)",
+            (siddharth_id['id'], 'Emergency Leave', '2024-06-20', '2024-06-20', 'Personal emergency', 'Rejected', '2024-06-19')
+        )
+
+    except:
+        pass
 
     db.commit()
     db.close()
