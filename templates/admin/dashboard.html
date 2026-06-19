@@ -4,22 +4,26 @@
 
 {% block content %}
 <div class="page-header">
-  <div class="section-card mb-4">
-    <h2>Welcome Back, {{ session.full_name }} 👋</h2>
-    <p class="page-sub">
-        Workforce overview and performance analytics for today.
-    </p>
+
+    <div>
+        <h1 class="page-heading">
+            Welcome Back, {{ session.full_name }} 👋
+        </h1>
+
+        <p class="page-sub">
+            Workforce overview and analytics for today.
+        </p>
+    </div>
+
+    <div class="header-actions">
+        <a href="{{ url_for('export_attendance') }}" class="btn-outline-action">
+            <i class="bi bi-download"></i>
+            Export Report
+        </a>
+    </div>
+
 </div>
-  <div>
-    <h1 class="page-heading">Admin Overview</h1>
-    <p class="page-sub">Manage your organization's attendance and leave requests</p>
-  </div>
-  <div class="header-actions">
-    <a href="{{ url_for('export_attendance') }}" class="btn-outline-action">
-      <i class="bi bi-download"></i> Export Report
-    </a>
-  </div>
-</div>
+
 
 <!-- Stats -->
 <div class="stats-grid">
