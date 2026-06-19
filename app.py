@@ -55,28 +55,28 @@ def init_db():
 
     # Insert predefined users
    # Insert predefined users
-try:
-    db.execute(
+    try:
+        db.execute(
         "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
         ('admin', 'admin123', 'admin', 'Siddharth Jha', 'siddharth@attendease.com', 'HR')
-    )
+         )
 
-    db.execute(
+        db.execute(
         "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
         ('siddharth', 'siddharth123', 'employee', 'Siddharth Jha', 'siddharth@attendease.com', 'Engineering')
     )
 
-    db.execute(
+       db.execute(
         "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
         ('abhishek', 'abhishek123', 'employee', 'Abhishek Kumar', 'abhishek@attendease.com', 'Marketing')
     )
-
-    db.execute(
+ 
+       db.execute(
         "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
         ('yash', 'yash123', 'employee', 'Yash Sharma', 'yash@attendease.com', 'Sales')
     )
 
-except:
+   except:
     pass
 
 
