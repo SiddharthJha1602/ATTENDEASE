@@ -54,25 +54,35 @@ def init_db():
     ''')
 
     # Insert predefined users
-    try:
-       db.execute("INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-           ('admin', 'admin123', 'admin', 'Siddharth Jha', 'siddharth@attendease.com', 'HR'))
+   # Insert predefined users
+try:
+    db.execute(
+        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+        ('admin', 'admin123', 'admin', 'Siddharth Jha', 'siddharth@attendease.com', 'HR')
+    )
 
-db.execute("INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-           ('siddharth', 'siddharth123', 'employee', 'Siddharth Jha', 'siddharth@attendease.com', 'Engineering'))
+    db.execute(
+        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+        ('siddharth', 'siddharth123', 'employee', 'Siddharth Jha', 'siddharth@attendease.com', 'Engineering')
+    )
 
-db.execute("INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-           ('abhishek', 'abhishek123', 'employee', 'Abhishek Kumar', 'abhishek@attendease.com', 'Marketing'))
+    db.execute(
+        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+        ('abhishek', 'abhishek123', 'employee', 'Abhishek Kumar', 'abhishek@attendease.com', 'Marketing')
+    )
 
-db.execute("INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-           ('yash', 'yash123', 'employee', 'Yash Sharma', 'yash@attendease.com', 'Sales'))
-    except:
-        pass
+    db.execute(
+        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+        ('yash', 'yash123', 'employee', 'Yash Sharma', 'yash@attendease.com', 'Sales')
+    )
+
+except:
+    pass
 
     # Sample attendance data
     from datetime import timedelta
     today = date.today()
-    emp_id = db.execute("SELECT id FROM users WHERE username='employee'").fetchone()
+    emp_id = db.execute("SELECT id FROM users WHERE username='siddharth'").fetchone()
     if emp_id:
         emp_id = emp_id['id']
         for i in range(20, 0, -1):
@@ -85,9 +95,9 @@ db.execute("INSERT INTO users (username, password, role, full_name, email, depar
                     pass
 
     # Sample leave requests
-    sarah_id = db.execute("SELECT id FROM users WHERE username='sarah'").fetchone()
-    mike_id = db.execute("SELECT id FROM users WHERE username='mike'").fetchone()
-    emp2_id = db.execute("SELECT id FROM users WHERE username='employee'").fetchone()
+abhishek_id = db.execute("SELECT id FROM users WHERE username='abhishek'").fetchone()
+yash_id = db.execute("SELECT id FROM users WHERE username='yash'").fetchone()
+siddharth_id = db.execute("SELECT id FROM users WHERE username='siddharth'").fetchone()
 
     if sarah_id and mike_id and emp2_id:
         try:
