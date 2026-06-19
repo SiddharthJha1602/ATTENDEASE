@@ -17,6 +17,7 @@ def get_db():
 
 def init_db():
     db = get_db()
+
     db.executescript('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,37 +54,32 @@ def init_db():
         );
     ''')
 
-    # Insert predefined users
-   # Insert predefined users
     try:
         db.execute(
-        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-        ('admin', 'admin123', 'admin', 'Siddharth Jha', 'siddharth@attendease.com', 'HR')
-         )
+            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+            ('admin', 'admin123', 'admin', 'Siddharth Jha', 'siddharth@attendease.com', 'HR')
+        )
 
         db.execute(
-        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-        ('siddharth', 'siddharth123', 'employee', 'Siddharth Jha', 'siddharth@attendease.com', 'Engineering')
-    )
+            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+            ('siddharth', 'siddharth123', 'employee', 'Siddharth Jha', 'siddharth@attendease.com', 'Engineering')
+        )
 
-       db.execute(
-        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-        ('abhishek', 'abhishek123', 'employee', 'Abhishek Kumar', 'abhishek@attendease.com', 'Marketing')
-    )
- 
-       db.execute(
-        "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-        ('yash', 'yash123', 'employee', 'Yash Sharma', 'yash@attendease.com', 'Sales')
-    )
+        db.execute(
+            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+            ('abhishek', 'abhishek123', 'employee', 'Abhishek Kumar', 'abhishek@attendease.com', 'Marketing')
+        )
 
-   except:
-    pass
+        db.execute(
+            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+            ('yash', 'yash123', 'employee', 'Yash Sharma', 'yash@attendease.com', 'Sales')
+        )
 
-
+    except:
+        pass
 
     db.commit()
     db.close()
-
 def login_required(f):
     from functools import wraps
     @wraps(f)
