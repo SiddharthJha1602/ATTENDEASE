@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}AttendEase{% endblock %} — HR Management</title>
+  <title>{% block title %}ATTENDEASE MS{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon"><i class="bi bi-calendar-check-fill"></i></div>
-      <span class="brand-text">AttendEase</span>
+      <span class="brand-text">ATTENDEASE MS</span>
     </div>
 
     <nav class="sidebar-nav">
@@ -79,6 +79,9 @@
           <i class="bi bi-calendar2"></i>
           <span id="currentDate"></span>
         </div>
+        <button id="themeToggle" class="btn btn-sm btn-outline-secondary me-3">
+    <i class="bi bi-moon-fill"></i>
+</button>
         <div class="topbar-user">
           <div class="user-avatar-sm">{{ session.full_name[0] }}</div>
           <span>{{ session.full_name }}</span>
