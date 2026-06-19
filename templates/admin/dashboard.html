@@ -67,8 +67,6 @@
     <i class="bi bi-arrow-up-right"></i> +2% this week
   </div>
 </div>
-    <div class="stat-trend"><i class="bi bi-check2-all"></i> Total approved</div>
-  </div>
 </div>
 
 <!-- Charts -->
@@ -79,41 +77,21 @@
       <h3>Attendance Overview</h3>
       <span class="chart-badge">Last 7 days</span>
     </div>
-    <canvas id="adminAttChart"></canvas>
+    <canvas id="adminAttChart" height="120"></canvas>
   </div>
 
   <div class="chart-card chart-small">
     <div class="chart-header">
       <h3>Leave Distribution</h3>
     </div>
-    <canvas id="adminLeaveChart"></canvas>
+    <canvas id="adminLeaveChart" height="120"></canvas>
   </div>
 
 
 
 </div>
 
-<!-- Quick Actions -->
-<div class="quick-actions-section">
-  <h3 class="section-title">Quick Actions</h3>
-  <div class="quick-actions">
-    <a href="{{ url_for('admin_attendance') }}" class="qa-card">
-      <div class="qa-icon qa-blue"><i class="bi bi-table"></i></div>
-      <span>Attendance Records</span>
-    </a>
-    <a href="{{ url_for('admin_leaves') }}" class="qa-card">
-      <div class="qa-icon qa-orange"><i class="bi bi-file-earmark-text"></i></div>
-      <span>Leave Requests</span>
-      {% if pending_requests > 0 %}
-      <span class="qa-badge">{{ pending_requests }}</span>
-      {% endif %}
-    </a>
-    <a href="{{ url_for('export_attendance') }}" class="qa-card">
-      <div class="qa-icon qa-green"><i class="bi bi-download"></i></div>
-      <span>Export CSV</span>
-    </a>
-  </div>
-</div>
+
 
 <!-- Recent Data -->
 <div class="activity-row">
