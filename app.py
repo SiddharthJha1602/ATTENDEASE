@@ -372,21 +372,21 @@ def admin_dashboard():
     ).fetchall()
     from datetime import timedelta
 
-chart_labels = []
-chart_values = []
+    chart_labels = []
+    chart_values = []
 
-for i in range(6, -1, -1):
+    for i in range(6, -1, -1):
 
-    day = date.today() - timedelta(days=i)
+        day = date.today() - timedelta(days=i)
 
-    chart_labels.append(day.strftime('%d %b'))
+        chart_labels.append(day.strftime('%d %b'))
 
-    count = db.execute(
-        "SELECT COUNT(*) as cnt FROM attendance WHERE date=?",
-        (day.isoformat(),)
-    ).fetchone()['cnt']
+        count = db.execute(
+            "SELECT COUNT(*) as cnt FROM attendance WHERE date=?",
+            (day.isoformat(),)
+        ).fetchone()['cnt']
 
-    chart_values.append(count)
+        chart_values.append(count)
     
     db.close()
 
