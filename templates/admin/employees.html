@@ -6,12 +6,20 @@
 {% block content %}
 
 <div class="page-header">
+
     <div>
         <h1 class="page-heading">Employee Management</h1>
         <p class="page-sub">
             View all registered employees.
         </p>
     </div>
+
+    <a href="{{ url_for('add_employee') }}"
+       class="btn-outline-action">
+        <i class="bi bi-plus-circle"></i>
+        Add Employee
+    </a>
+
 </div>
 
 <div class="activity-card">
