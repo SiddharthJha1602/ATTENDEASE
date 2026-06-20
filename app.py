@@ -359,19 +359,19 @@ attendance_rate = round(
     1
 ) if possible_attendance > 0 else 0
 
-    recent_attendance = db.execute(
+recent_attendance = db.execute(
         "SELECT a.*, u.full_name, u.department FROM attendance a JOIN users u ON a.user_id=u.id ORDER BY a.date DESC LIMIT 8"
     ).fetchall()
-    recent_leaves = db.execute(
+recent_leaves = db.execute(
         "SELECT lr.*, u.full_name FROM leave_requests lr JOIN users u ON lr.user_id=u.id ORDER BY lr.applied_date DESC LIMIT 5"
     ).fetchall()
 
-    leave_dist = db.execute(
+leave_dist = db.execute(
         "SELECT leave_type, COUNT(*) as cnt FROM leave_requests GROUP BY leave_type"
     ).fetchall()
 
-    db.close()
-    return render_template('admin/dashboard.html',
+db.close()
+return render_template('admin/dashboard.html',
         total_employees=total_employees,
         attendance_today=attendance_today,
         pending_requests=pending_requests,
