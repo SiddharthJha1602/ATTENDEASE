@@ -371,9 +371,9 @@ leave_dist = db.execute(
     "SELECT leave_type, COUNT(*) as cnt FROM leave_requests GROUP BY leave_type"
 ).fetchall()
 
-    db.close()
+db.close()
 
-    return render_template(
+return render_template(
         'admin/dashboard.html',
         total_employees=total_employees,
         attendance_today=attendance_today,
