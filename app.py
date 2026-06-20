@@ -157,7 +157,7 @@ def login():
             (username,)
         ).fetchone()
 
-        print(user)
+        print(dict(user) if user else "USER NOT FOUND")
 
         db.close()
 
