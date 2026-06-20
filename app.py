@@ -241,6 +241,10 @@ def employee_dashboard():
         leave_stats=leave_stats,
         today=today
     )
+    @app.route('/profile')
+@login_required
+def profile():
+    return render_template('employee/profile.html')
 
 @app.route('/attendance', methods=['GET', 'POST'])
 @login_required
