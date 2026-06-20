@@ -456,20 +456,9 @@ def admin_employees():
         'admin/employees.html',
         employees=employees,
         search=search
-    ):
-
-    db = get_db()
-
-    employees = db.execute(
-        "SELECT * FROM users WHERE role='employee' ORDER BY full_name"
-    ).fetchall()
-
-    db.close()
-
-    return render_template(
-        'admin/employees.html',
-        employees=employees
     )
+
+    
 @app.route('/admin/employees/add', methods=['GET', 'POST'])
 @admin_required
 def add_employee():
