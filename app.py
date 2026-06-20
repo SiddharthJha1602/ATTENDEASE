@@ -153,6 +153,7 @@ def login():
     "SELECT * FROM users WHERE username=?",
     (username,)
 ).fetchone()
+        print(user)
         db.close()
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
