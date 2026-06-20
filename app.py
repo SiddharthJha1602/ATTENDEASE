@@ -246,6 +246,11 @@ def employee_dashboard():
 def profile():
     return render_template('employee/profile.html')
 
+@app.route('/about')
+@login_required
+def about():
+    return render_template('about.html')
+
 @app.route('/attendance', methods=['GET', 'POST'])
 @login_required
 def attendance():
