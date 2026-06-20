@@ -145,32 +145,40 @@ def index():
 def login():
     if 'user_id' in session:
         return redirect(url_for('index'))
+
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
-        db = get_db()
-        user = db.execute(
-    "SELECT * FROM users WHERE username=?",
-    (username,)
-).fetchone()
-        print(user)
-        db.close()
-        
 
-if user and check_password_hash(user['password'], password):
+        db = get_db()
+
+        user = db.execute(
+            "SELECT * FROM users WHERE username=?",
+            (username,)
+        ).fetchone()
+
+        print(user)
+
+        db.close()
+
+        if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['full_name'] = user['full_name']
             session['role'] = user['role']
             session['department'] = user['department']
+
             flash(f'Welcome back, {user["full_name"]}!', 'success')
+
             if user['role'] == 'admin':
                 return redirect(url_for('admin_dashboard'))
+
             return redirect(url_for('employee_dashboard'))
+
         else:
             flash('Invalid username or password. Please try again.', 'danger')
-    return render_template('login.html')
 
+    return render_template('login.html')
 @app.route('/logout')
 def logout():
     session.clear()
