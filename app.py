@@ -420,7 +420,50 @@ def admin_employees():
         'admin/employees.html',
         employees=employees
     )
+@app.route('/admin/employees/add', methods=['GET', 'POST'])
+@admin_required
+def add_employee():
 
+    if request.method == 'POST':
+
+        username = request.form.get('username')
+        password = request.form.get('password')
+        full_name = request.form.get('full_name')
+        email = request.form.get('email')
+        department = request.form.get('department')
+
+        db = get_db()
+
+        try:
+            db.execute(
+                """
+                INSERT INTO users
+                (username, password, role, full_name, email, department)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    username,
+                    generate_password_hash(password),
+                    'employee',
+                    full_name,
+                    email,
+                    department
+                )
+            )
+
+            db.commit()
+
+            flash('Employee added successfully!', 'success')
+
+            return redirect(url_for('admin_employees'))
+
+        except Exception:
+            flash('Username already exists.', 'danger')
+
+        finally:
+            db.close()
+
+    return render_template('admin/add_employee.html')
 @app.route('/admin/attendance')
 @admin_required
 def admin_attendance():
