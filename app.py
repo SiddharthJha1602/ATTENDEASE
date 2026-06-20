@@ -347,33 +347,33 @@ def admin_dashboard():
     attendance_today = db.execute("SELECT COUNT(*) as cnt FROM attendance WHERE date=?", (today,)).fetchone()['cnt']
     pending_requests = db.execute("SELECT COUNT(*) as cnt FROM leave_requests WHERE status='Pending'").fetchone()['cnt']
     approved_requests = db.execute("SELECT COUNT(*) as cnt FROM leave_requests WHERE status='Approved'").fetchone()['cnt']
-    # Overall attendance rate
-total_attendance_records = db.execute(
-    "SELECT COUNT(*) as cnt FROM attendance"
-).fetchone()['cnt']
+       # Overall attendance rate
+    total_attendance_records = db.execute(
+        "SELECT COUNT(*) as cnt FROM attendance"
+    ).fetchone()['cnt']
 
-possible_attendance = total_employees * 30
+    possible_attendance = total_employees * 30
 
-attendance_rate = round(
-    (total_attendance_records / possible_attendance * 100),
-    1
-) if possible_attendance > 0 else 0
+    attendance_rate = round(
+        (total_attendance_records / possible_attendance * 100),
+        1
+    ) if possible_attendance > 0 else 0
 
-recent_attendance = db.execute(
-    "SELECT a.*, u.full_name, u.department FROM attendance a JOIN users u ON a.user_id=u.id ORDER BY a.date DESC LIMIT 8"
-).fetchall()
+    recent_attendance = db.execute(
+        "SELECT a.*, u.full_name, u.department FROM attendance a JOIN users u ON a.user_id=u.id ORDER BY a.date DESC LIMIT 8"
+    ).fetchall()
 
-recent_leaves = db.execute(
-    "SELECT lr.*, u.full_name FROM leave_requests lr JOIN users u ON lr.user_id=u.id ORDER BY lr.applied_date DESC LIMIT 5"
-).fetchall()
+    recent_leaves = db.execute(
+        "SELECT lr.*, u.full_name FROM leave_requests lr JOIN users u ON lr.user_id=u.id ORDER BY lr.applied_date DESC LIMIT 5"
+    ).fetchall()
 
-leave_dist = db.execute(
-    "SELECT leave_type, COUNT(*) as cnt FROM leave_requests GROUP BY leave_type"
-).fetchall()
+    leave_dist = db.execute(
+        "SELECT leave_type, COUNT(*) as cnt FROM leave_requests GROUP BY leave_type"
+    ).fetchall()
 
-db.close()
+    db.close()
 
-return render_template(
+    return render_template(
         'admin/dashboard.html',
         total_employees=total_employees,
         attendance_today=attendance_today,
@@ -385,7 +385,6 @@ return render_template(
         leave_dist=leave_dist,
         today=today
     )
-
 @app.route('/admin/employees')
 @admin_required
 def admin_employees():
