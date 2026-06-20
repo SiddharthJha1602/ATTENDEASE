@@ -155,7 +155,12 @@ def login():
 ).fetchone()
         print(user)
         db.close()
-        if user and check_password_hash(user['password'], password):
+        if user:
+    print("Stored hash:", user['password'])
+    print("Entered password:", password)
+    print("Match:", check_password_hash(user['password'], password))
+
+if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['full_name'] = user['full_name']
