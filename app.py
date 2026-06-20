@@ -370,13 +370,32 @@ def admin_dashboard():
     leave_dist = db.execute(
         "SELECT leave_type, COUNT(*) as cnt FROM leave_requests GROUP BY leave_type"
     ).fetchall()
+    from datetime import timedelta
 
+chart_labels = []
+chart_values = []
+
+for i in range(6, -1, -1):
+
+    day = date.today() - timedelta(days=i)
+
+    chart_labels.append(day.strftime('%d %b'))
+
+    count = db.execute(
+        "SELECT COUNT(*) as cnt FROM attendance WHERE date=?",
+        (day.isoformat(),)
+    ).fetchone()['cnt']
+
+    chart_values.append(count)
+    
     db.close()
 
     return render_template(
         'admin/dashboard.html',
         total_employees=total_employees,
         attendance_today=attendance_today,
+        chart_labels=chart_labels,
+        chart_values=chart_values,
         pending_requests=pending_requests,
         approved_requests=approved_requests,
         attendance_rate=attendance_rate,
