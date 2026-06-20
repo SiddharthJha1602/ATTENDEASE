@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Employees{% endblock %}
+{% block page_title %}Employee Management{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-heading">Employee Management</h1>
+        <p class="page-sub">
+            View all registered employees.
+        </p>
+    </div>
+</div>
+
+<div class="activity-card">
+
+    <div class="table-responsive">
+
+        <table class="data-table">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for emp in employees %}
+                <tr>
+
+                    <td>{{ emp.full_name }}</td>
+
+                    <td>{{ emp.username }}</td>
+
+                    <td>{{ emp.email }}</td>
+
+                    <td>{{ emp.department }}</td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
