@@ -170,14 +170,13 @@ if (ctx1) {
 
   gradient.addColorStop(0, 'rgba(37,99,235,0.35)');
   gradient.addColorStop(1, 'rgba(37,99,235,0)');
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   new Chart(ctx1, {
     type: 'line',
     data: {
-      labels: days,
+      labels: {{ chart_labels | tojson }},
       datasets: [{
         label: 'Attendance %',
-        data: [92, 95, 97, 96, 94, 98, 96],
+        data: {{ chart_values | tojson }},
         borderColor: '#2563EB',
         backgroundColor: gradient,
         fill: true,
