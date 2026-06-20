@@ -419,6 +419,45 @@ def admin_dashboard():
 @admin_required
 def admin_employees():
 
+    search = request.args.get('search', '').strip()
+
+    db = get_db()
+
+    if search:
+        employees = db.execute(
+            """
+            SELECT * FROM users
+            WHERE role='employee'
+            AND (
+                full_name LIKE ?
+                OR username LIKE ?
+                OR department LIKE ?
+            )
+            ORDER BY full_name
+            """,
+            (
+                f'%{search}%',
+                f'%{search}%',
+                f'%{search}%'
+            )
+        ).fetchall()
+    else:
+        employees = db.execute(
+            """
+            SELECT * FROM users
+            WHERE role='employee'
+            ORDER BY full_name
+            """
+        ).fetchall()
+
+    db.close()
+
+    return render_template(
+        'admin/employees.html',
+        employees=employees,
+        search=search
+    ):
+
     db = get_db()
 
     employees = db.execute(
