@@ -526,6 +526,30 @@ def edit_employee(user_id):
         employee=employee
     )
 
+@app.route('/admin/employees/delete/<int:user_id>')
+@admin_required
+def delete_employee(user_id):
+
+    db = get_db()
+
+    db.execute(
+        "DELETE FROM users WHERE id=?",
+        (user_id,)
+    )
+
+    db.commit()
+
+    db.close()
+
+    flash(
+        'Employee deleted successfully!',
+        'success'
+    )
+
+    return redirect(
+        url_for('admin_employees')
+    )
+
 @app.route('/admin/attendance')
 @admin_required
 def admin_attendance():
