@@ -347,6 +347,17 @@ def admin_dashboard():
     attendance_today = db.execute("SELECT COUNT(*) as cnt FROM attendance WHERE date=?", (today,)).fetchone()['cnt']
     pending_requests = db.execute("SELECT COUNT(*) as cnt FROM leave_requests WHERE status='Pending'").fetchone()['cnt']
     approved_requests = db.execute("SELECT COUNT(*) as cnt FROM leave_requests WHERE status='Approved'").fetchone()['cnt']
+    # Overall attendance rate
+total_attendance_records = db.execute(
+    "SELECT COUNT(*) as cnt FROM attendance"
+).fetchone()['cnt']
+
+possible_attendance = total_employees * 30
+
+attendance_rate = round(
+    (total_attendance_records / possible_attendance * 100),
+    1
+) if possible_attendance > 0 else 0
 
     recent_attendance = db.execute(
         "SELECT a.*, u.full_name, u.department FROM attendance a JOIN users u ON a.user_id=u.id ORDER BY a.date DESC LIMIT 8"
@@ -365,6 +376,7 @@ def admin_dashboard():
         attendance_today=attendance_today,
         pending_requests=pending_requests,
         approved_requests=approved_requests,
+        attendance_rate=attendance_rate,                   
         recent_attendance=recent_attendance,
         recent_leaves=recent_leaves,
         leave_dist=leave_dist,
