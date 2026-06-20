@@ -3,6 +3,7 @@ import sqlite3
 import os
 from datetime import datetime, date
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = 'attendease_secret_2024'
@@ -56,24 +57,51 @@ def init_db():
 
     try:
         db.execute(
-            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-            ('admin', 'admin123', 'admin', 'Siddharth Jha', 'siddharth@attendease.com', 'HR')
-        )
+    "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+    (
+        'admin',
+        generate_password_hash('admin123'),
+        'admin',
+        'Shivam Sir',
+        'shivam@attendease.com',
+        'HR'
+    )
+)
+        db.execute(
+    "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+    (
+        'siddharth',
+        generate_password_hash('siddharth123'),
+        'employee',
+        'Siddharth Jha',
+        'siddharth@attendease.com',
+        'Engineering'
+    )
+)
 
         db.execute(
-            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-            ('siddharth', 'siddharth123', 'employee', 'Siddharth Jha', 'siddharth@attendease.com', 'Engineering')
-        )
+    "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+    (
+        'abhishek',
+        generate_password_hash('abhishek123'),
+        'employee',
+        'Abhishek Kumar',
+        'abhishek@attendease.com',
+        'Marketing'
+    )
+)
 
         db.execute(
-            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-            ('abhishek', 'abhishek123', 'employee', 'Abhishek Kumar', 'abhishek@attendease.com', 'Marketing')
-        )
-
-        db.execute(
-            "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
-            ('yash', 'yash123', 'employee', 'Yash Sharma', 'yash@attendease.com', 'Sales')
-        )
+    "INSERT INTO users (username, password, role, full_name, email, department) VALUES (?, ?, ?, ?, ?, ?)",
+    (
+        'yash',
+        generate_password_hash('yash123'),
+        'employee',
+        'Yash Sharma',
+        'yash@attendease.com',
+        'Sales'
+    )
+)
 
     except:
         pass
@@ -121,9 +149,12 @@ def login():
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
         db = get_db()
-        user = db.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password)).fetchone()
+        user = db.execute(
+    "SELECT * FROM users WHERE username=?",
+    (username,)
+).fetchone()
         db.close()
-        if user:
+        if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['full_name'] = user['full_name']
