@@ -475,6 +475,57 @@ def add_employee():
             db.close()
 
     return render_template('admin/add_employee.html')
+    
+@app.route('/admin/employees/edit/<int:user_id>',
+           methods=['GET', 'POST'])
+@admin_required
+def edit_employee(user_id):
+
+    db = get_db()
+
+    employee = db.execute(
+        "SELECT * FROM users WHERE id=?",
+        (user_id,)
+    ).fetchone()
+
+    if request.method == 'POST':
+
+        full_name = request.form.get('full_name')
+        email = request.form.get('email')
+        department = request.form.get('department')
+
+        db.execute(
+            """
+            UPDATE users
+            SET full_name=?,
+                email=?,
+                department=?
+            WHERE id=?
+            """,
+            (
+                full_name,
+                email,
+                department,
+                user_id
+            )
+        )
+
+        db.commit()
+
+        db.close()
+
+        flash('Employee updated successfully!',
+              'success')
+
+        return redirect(url_for('admin_employees'))
+
+    db.close()
+
+    return render_template(
+        'admin/edit_employee.html',
+        employee=employee
+    )
+
 @app.route('/admin/attendance')
 @admin_required
 def admin_attendance():
