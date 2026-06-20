@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="profile-card">
+
+    <div class="profile-header">
+        <div class="profile-avatar">
+            {{ session.full_name[0] }}
+        </div>
+
+        <div>
+            <h2>{{ session.full_name }}</h2>
+            <p>{{ session.role|title }}</p>
+        </div>
+    </div>
+
+    <div class="profile-grid">
+
+        <div class="profile-item">
+            <label>Username</label>
+            <span>{{ session.username }}</span>
+        </div>
+
+        <div class="profile-item">
+            <label>Department</label>
+            <span>{{ session.department }}</span>
+        </div>
+
+        <div class="profile-item">
+            <label>Role</label>
+            <span>{{ session.role|title }}</span>
+        </div>
+
+        <div class="profile-item">
+            <label>Employee ID</label>
+            <span>{{ session.user_id }}</span>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
