@@ -49,6 +49,10 @@
       <a href="{{ url_for('leave_status') }}" class="nav-item {% if request.endpoint == 'leave_status' %}active{% endif %}">
         <i class="bi bi-list-check"></i><span>Leave Status</span>
       </a>
+      <a href="{{ url_for('profile') }}">
+    <i class="bi bi-person-circle"></i>
+    My Profile
+</a>
       {% endif %}
 
       <div class="nav-section-label mt-auto-section">Account</div>
