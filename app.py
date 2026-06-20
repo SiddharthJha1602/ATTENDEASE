@@ -386,6 +386,23 @@ return render_template(
         today=today
     )
 
+@app.route('/admin/employees')
+@admin_required
+def admin_employees():
+
+    db = get_db()
+
+    employees = db.execute(
+        "SELECT * FROM users WHERE role='employee' ORDER BY full_name"
+    ).fetchall()
+
+    db.close()
+
+    return render_template(
+        'admin/employees.html',
+        employees=employees
+    )
+
 @app.route('/admin/attendance')
 @admin_required
 def admin_attendance():
