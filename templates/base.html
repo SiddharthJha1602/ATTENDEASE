@@ -30,6 +30,11 @@
       <a href="{{ url_for('admin_attendance') }}" class="nav-item {% if request.endpoint == 'admin_attendance' %}active{% endif %}">
         <i class="bi bi-calendar3"></i><span>Attendance Records</span>
       </a>
+      <a href="{{ url_for('admin_employees') }}"
+   class="nav-item {% if request.endpoint == 'admin_employees' %}active{% endif %}">
+    <i class="bi bi-people-fill"></i>
+    <span>Employees</span>
+</a>
       <a href="{{ url_for('admin_leaves') }}" class="nav-item {% if request.endpoint == 'admin_leaves' %}active{% endif %}">
         <i class="bi bi-file-earmark-text"></i><span>Leave Requests</span>
         {% set pending = namespace(cnt=0) %}
