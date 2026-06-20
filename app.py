@@ -530,6 +530,15 @@ def edit_employee(user_id):
 @admin_required
 def delete_employee(user_id):
 
+    if user_id == session['user_id']:
+        flash(
+            "You cannot delete your own account.",
+            "danger"
+        )
+        return redirect(
+            url_for('admin_employees')
+        )
+
     db = get_db()
 
     db.execute(
@@ -549,7 +558,6 @@ def delete_employee(user_id):
     return redirect(
         url_for('admin_employees')
     )
-
 @app.route('/admin/attendance')
 @admin_required
 def admin_attendance():
