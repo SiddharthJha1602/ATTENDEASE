@@ -1,5 +1,16 @@
 # ATTENDEASE – HR Management System with Selenium Automation Testing
 
+![Status](https://img.shields.io/badge/Status-Completed-success)
+![Tests](https://img.shields.io/badge/Tests-10_Passed-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Selenium](https://img.shields.io/badge/Selenium-Automation-green)
+
+## Live Application
+
+https://attendease-q9vb.onrender.com/login
+
+---
+
 ## Overview
 
 ATTENDEASE is a Human Resource Management System (HRMS) developed using Python and Flask. The project includes a complete Selenium-based automation testing framework built with PyTest and the Page Object Model (POM) design pattern.
@@ -30,7 +41,7 @@ The automation suite validates critical business workflows including authenticat
 * Explicit Waits using WebDriverWait
 * Assertions for All Test Cases
 * Externalized Test Data using JSON
-* Screenshot Capture for Test Scenarios
+* Automatic Screenshot Capture for Failed Test Cases
 * HTML Execution Reports using pytest-html
 
 ---
@@ -51,7 +62,7 @@ The automation suite validates critical business workflows including authenticat
 
 ---
 
-## Automated Test Cases
+## Automated Test Coverage
 
 ### Authentication Tests
 
@@ -75,6 +86,15 @@ The automation suite validates critical business workflows including authenticat
 
 * Admin Leave Approval
 
+### Total Automated Tests
+
+**10 Automated Test Cases** covering:
+
+* Authentication
+* Attendance Management
+* Leave Management
+* Administrative Workflows
+
 ---
 
 ## Project Structure
@@ -84,7 +104,23 @@ ATTENDEASE
 │
 ├── automation
 │   ├── pages
+│   │   ├── login_page.py
+│   │   ├── attendance_page.py
+│   │   ├── leave_page.py
+│   │   └── admin_page.py
+│   │
 │   ├── tests
+│   │   ├── test_valid_login.py
+│   │   ├── test_invalid_login.py
+│   │   ├── test_empty_login.py
+│   │   ├── test_logout.py
+│   │   ├── test_mark_attendance.py
+│   │   ├── test_duplicate_attendance.py
+│   │   ├── test_apply_leave.py
+│   │   ├── test_leave_validation.py
+│   │   ├── test_view_leave_status.py
+│   │   └── test_admin_approval.py
+│   │
 │   ├── screenshots
 │   ├── reports
 │   ├── test_data.json
@@ -97,7 +133,7 @@ ATTENDEASE
 ├── app.py
 ├── requirements.txt
 ├── README.md
-└── report.html
+└── automation/reports/report.html
 ```
 
 ---
@@ -107,7 +143,7 @@ ATTENDEASE
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/SiddharthJha1602/ATTENDEASE.git
 cd ATTENDEASE
 ```
 
@@ -144,35 +180,63 @@ The automation framework generates:
 * Validation Logs
 * Detailed Test Results
 
-Report Location:
+### Report Location
 
 ```text
 automation/reports/report.html
 ```
 
-Screenshots Location:
+### Screenshot Location
 
 ```text
 automation/screenshots/
+```
+
+### Failure Screenshot Location
+
+```text
+automation/screenshots/failures/
 ```
 
 ---
 
 ## Results
 
-✅ All automated test cases executed successfully
+✔ 10 Automated Test Cases Executed Successfully
 
-✅ Selenium WebDriver automation implemented
+✔ Selenium WebDriver Framework Implemented
 
-✅ Page Object Model (POM) architecture used
+✔ Page Object Model (POM) Architecture Applied
 
-✅ Explicit waits implemented using WebDriverWait
+✔ Explicit Waits Implemented Using WebDriverWait
 
-✅ Test data externalized using JSON
+✔ Assertions Used in All Test Cases
 
-✅ HTML execution report generated
+✔ Test Data Externalized Using JSON
 
-✅ Attendance, Leave, Login, Logout, and Admin workflows automated
+✔ HTML Execution Report Generated Using pytest-html
+
+✔ Screenshots Captured for Failed Test Cases
+
+✔ Attendance, Leave, Login, Logout and Admin Modules Automated
+
+✔ Application Successfully Deployed on Render
+
+---
+
+## Learning Outcomes
+
+Through this project, the following concepts were implemented and practiced:
+
+* Selenium WebDriver Automation
+* Page Object Model (POM)
+* Automated Testing with PyTest
+* Explicit Waits and Synchronization
+* Test Data Management using JSON
+* Screenshot Capture and Reporting
+* Flask Web Application Testing
+* Git and GitHub Version Control
+* Deployment on Render
 
 ---
 
@@ -182,3 +246,16 @@ automation/screenshots/
 
 B.Tech Computer Science Engineering
 Manipal University Jaipur
+
+GitHub:
+https://github.com/SiddharthJha1602
+
+---
+
+## Project Status
+
+✅ Completed
+
+✅ Tested Successfully
+
+✅ Ready for Internship Submission
