@@ -33,6 +33,26 @@ Technology Stack:
 9. View Leave Status
 10. Admin Approval
 
+### Test Automation Features
+
+* Selenium WebDriver with Python
+* Page Object Model (POM)
+* Explicit Waits using WebDriverWait
+* Assertions for all test cases
+* Test data externalized in JSON format
+* Screenshots captured for positive and negative test scenarios
+* HTML execution report generated using pytest-html
+* Automated tests for:
+
+  * Login
+  * Logout
+  * Attendance Marking
+  * Duplicate Attendance Validation
+  * Leave Application
+  * Leave Validation
+  * Leave Status View
+  * Admin Leave Approval
+
 ## Test Execution
 
 Install dependencies:
