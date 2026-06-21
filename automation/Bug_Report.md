@@ -19,7 +19,7 @@ Open
 
 ---
 
-## Bug 2
+## BUG 2
 
 Title:
 Leave validation messages could be more descriptive
