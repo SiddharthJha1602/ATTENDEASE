@@ -1,77 +1,81 @@
-# ATTENDEASE
+# ATTENDEASE – HR Management System with Selenium Automation Testing
 
- Management System with Selenium Automation Testing.
+## Overview
+
+ATTENDEASE is a Human Resource Management System (HRMS) developed using Python and Flask. The project includes a complete Selenium-based automation testing framework built with PyTest and the Page Object Model (POM) design pattern.
+
+The automation suite validates critical business workflows including authentication, attendance management, leave management, and administrative approvals.
+
+---
 
 ## Features
 
-- Employee Login
-- Attendance Management
-- Leave Application
-- Leave Status Tracking
-- Admin Leave Approval
-- Attendance Export
+### Employee Features
 
-## Automation Framework
+* Employee Login
+* Attendance Management
+* Attendance Export
+* Leave Application
+* Leave Status Tracking
 
-Technology Stack:
+### Admin Features
 
-- Python
-- Selenium WebDriver
-- PyTest
-- Page Object Model (POM)
+* Leave Request Review
+* Leave Approval Management
+
+### Automation Framework Features
+
+* Selenium WebDriver Automation
+* Page Object Model (POM)
+* Explicit Waits using WebDriverWait
+* Assertions for All Test Cases
+* Externalized Test Data using JSON
+* Screenshot Capture for Test Scenarios
+* HTML Execution Reports using pytest-html
+
+---
+
+## Technology Stack
+
+| Component         | Technology              |
+| ----------------- | ----------------------- |
+| Backend           | Python, Flask           |
+| Frontend          | HTML, CSS, JavaScript   |
+| Database          | SQLite                  |
+| Automation        | Selenium WebDriver      |
+| Testing Framework | PyTest                  |
+| Design Pattern    | Page Object Model (POM) |
+| Reporting         | pytest-html             |
+| Version Control   | Git & GitHub            |
+| Deployment        | Render                  |
+
+---
 
 ## Automated Test Cases
 
-1. Valid Login
-2. Invalid Login
-3. Empty Login
-4. Logout
-5. Mark Attendance
-6. Duplicate Attendance
-7. Apply Leave Successfully
-8. Leave Form Validation
-9. View Leave Status
-10. Admin Approval
+### Authentication Tests
 
-### Test Automation Features
+* Valid Login
+* Invalid Login
+* Empty Login Validation
+* Logout Functionality
 
-* Selenium WebDriver with Python
-* Page Object Model (POM)
-* Explicit Waits using WebDriverWait
-* Assertions for all test cases
-* Test data externalized in JSON format
-* Screenshots captured for positive and negative test scenarios
-* HTML execution report generated using pytest-html
-* Automated tests for:
+### Attendance Tests
 
-  * Login
-  * Logout
-  * Attendance Marking
-  * Duplicate Attendance Validation
-  * Leave Application
-  * Leave Validation
-  * Leave Status View
-  * Admin Leave Approval
+* Mark Attendance
+* Duplicate Attendance Validation
 
-## Test Execution
+### Leave Management Tests
 
-Install dependencies:
+* Apply Leave Successfully
+* Leave Form Validation
+* View Leave Status
 
-```bash
-pip install -r requirements.txt
-```
+### Administrative Tests
 
-Run all tests:
+* Admin Leave Approval
 
-```bash
-pytest automation/tests -v
-```
-
-Generate HTML Report:
-
-```bash
-pytest automation/tests -v --html=automation/reports/report.html
-```
+---
 
 ## Project Structure
 
@@ -82,15 +86,99 @@ ATTENDEASE
 │   ├── pages
 │   ├── tests
 │   ├── screenshots
-│   └── reports
+│   ├── reports
+│   ├── test_data.json
+│   └── conftest.py
 │
 ├── templates
 ├── static
+├── uploads
+│
 ├── app.py
 ├── requirements.txt
-└── README.md
+├── README.md
+└── report.html
 ```
 
-## Result
+---
 
-All automated test cases passed successfully using Selenium WebDriver and PyTest.
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd ATTENDEASE
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Running Automated Tests
+
+Execute all test cases:
+
+```bash
+pytest automation/tests -v
+```
+
+Generate an HTML report:
+
+```bash
+pytest automation/tests -v --html=automation/reports/report.html
+```
+
+---
+
+## Test Artifacts
+
+The automation framework generates:
+
+* HTML Execution Reports
+* Test Screenshots
+* Validation Logs
+* Detailed Test Results
+
+Report Location:
+
+```text
+automation/reports/report.html
+```
+
+Screenshots Location:
+
+```text
+automation/screenshots/
+```
+
+---
+
+## Results
+
+✅ All automated test cases executed successfully
+
+✅ Selenium WebDriver automation implemented
+
+✅ Page Object Model (POM) architecture used
+
+✅ Explicit waits implemented using WebDriverWait
+
+✅ Test data externalized using JSON
+
+✅ HTML execution report generated
+
+✅ Attendance, Leave, Login, Logout, and Admin workflows automated
+
+---
+
+## Author
+
+**Siddharth Jha**
+
+B.Tech Computer Science Engineering
+Manipal University Jaipur
