@@ -1,0 +1,15 @@
+{
+    "admin_username": "admin",
+    "admin_password": "admin123",
+
+    "employee_username": "siddharth",
+    "employee_password": "siddharth123",
+
+    "invalid_username": "wronguser",
+    "invalid_password": "wrongpassword",
+
+    "leave_type": "Casual Leave",
+    "leave_start_date": "2026-06-25",
+    "leave_end_date": "2026-06-26",
+    "leave_reason": "Family function leave request"
+}

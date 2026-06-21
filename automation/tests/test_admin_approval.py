@@ -1,12 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
+from selenium.webdriver.support.ui import WebDriverWait
 
 from automation.pages.login_page import LoginPage
 from automation.pages.admin_page import AdminPage
+from automation.utils import load_test_data
 
 
 def test_admin_approval():
+
+    data = load_test_data()
 
     options = Options()
 
@@ -19,17 +22,21 @@ def test_admin_approval():
     login_page.open()
 
     login_page.login(
-        "admin",
-        "admin123"
+        data["admin_username"],
+        data["admin_password"]
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
+    )
 
     driver.get(
         "http://127.0.0.1:5000/admin/leaves"
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "admin/leaves" in d.current_url.lower()
+    )
 
     admin_page = AdminPage(driver)
 

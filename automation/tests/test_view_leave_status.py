@@ -1,12 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from automation.pages.login_page import LoginPage
+from automation.utils import load_test_data
 
 
 def test_view_leave_status():
+
+    data = load_test_data()
 
     options = Options()
 
@@ -19,17 +23,23 @@ def test_view_leave_status():
     login_page.open()
 
     login_page.login(
-        "siddharth",
-        "siddharth123"
+        data["employee_username"],
+        data["employee_password"]
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
+    )
 
     driver.get(
         "http://127.0.0.1:5000/leave-status"
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.ID, "leaveTable")
+        )
+    )
 
     table = driver.find_element(
         By.ID,

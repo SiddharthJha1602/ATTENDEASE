@@ -1,12 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
-
+from selenium.webdriver.support.ui import WebDriverWait
+from automation.utils import load_test_data
 from automation.pages.login_page import LoginPage
 
 
 def test_valid_login():
-
+    data = load_test_data()
     options = Options()
 
     driver = webdriver.Chrome(options=options)
@@ -18,13 +18,13 @@ def test_valid_login():
     login_page.open()
 
     login_page.login(
-        "admin",
-        "admin123"
+    data["admin_username"],
+    data["admin_password"]
+   )
+
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
     )
-
-    time.sleep(3)
-
-    print(driver.current_url)
 
     assert "dashboard" in driver.current_url.lower()
 

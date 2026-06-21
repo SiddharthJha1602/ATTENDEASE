@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class LeavePage:
@@ -50,11 +51,15 @@ class LeavePage:
         )
 
         self.driver.execute_script(
-            "arguments[0].scrollIntoView({block: 'center'});",
+            "arguments[0].scrollIntoView({block:'center'});",
             submit_btn
         )
 
-        time.sleep(1)
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(
+                (By.ID, "submitBtn")
+            )
+        )
 
         self.driver.execute_script(
             "arguments[0].click();",

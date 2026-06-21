@@ -1,12 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
+from selenium.webdriver.support.ui import WebDriverWait
 
 from automation.pages.login_page import LoginPage
 from automation.pages.attendance_page import AttendancePage
+from automation.utils import load_test_data
 
 
 def test_mark_attendance():
+
+    data = load_test_data()
 
     options = Options()
 
@@ -18,23 +21,30 @@ def test_mark_attendance():
 
     login_page.open()
 
-    # Use EMPLOYEE credentials
     login_page.login(
-        "siddharth",
-        "siddharth123"
+        data["employee_username"],
+        data["employee_password"]
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
+    )
 
-    driver.get("http://127.0.0.1:5000/attendance")
+    driver.get(
+        "http://127.0.0.1:5000/attendance"
+    )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "attendance" in d.current_url.lower()
+    )
 
     attendance = AttendancePage(driver)
 
     attendance.mark_attendance()
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "attendance" in d.current_url.lower()
+    )
 
     assert "attendance" in driver.current_url.lower()
 

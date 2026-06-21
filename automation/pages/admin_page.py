@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class AdminPage:
@@ -16,15 +17,23 @@ class AdminPage:
 
         if len(approve_buttons) > 0:
 
-            approve_buttons[0].click()
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block:'center'});",
+                approve_buttons[0]
+            )
 
-            time.sleep(1)
+            self.driver.execute_script(
+                "arguments[0].click();",
+                approve_buttons[0]
+            )
+
+            WebDriverWait(self.driver, 10).until(
+                EC.alert_is_present()
+            )
 
             alert = self.driver.switch_to.alert
 
             alert.accept()
-
-            time.sleep(2)
 
             return True
 

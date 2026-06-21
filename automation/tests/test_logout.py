@@ -1,12 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from automation.pages.login_page import LoginPage
+from automation.utils import load_test_data
 
 
 def test_logout():
+
+    data = load_test_data()
 
     options = Options()
 
@@ -19,18 +23,25 @@ def test_logout():
     login_page.open()
 
     login_page.login(
-        "admin",
-        "admin123"
+        data["admin_username"],
+        data["admin_password"]
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
+    )
 
-    driver.find_element(
-        By.CLASS_NAME,
-        "nav-logout"
-    ).click()
+    logout_btn = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable(
+            (By.CLASS_NAME, "nav-logout")
+        )
+    )
 
-    time.sleep(2)
+    logout_btn.click()
+
+    WebDriverWait(driver, 10).until(
+        lambda d: "login" in d.current_url.lower()
+    )
 
     assert "login" in driver.current_url.lower()
 

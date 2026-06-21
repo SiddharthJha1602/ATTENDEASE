@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-import time
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from automation.utils import load_test_data
 from automation.pages.login_page import LoginPage
 
 
 def test_leave_validation():
-
+    data = load_test_data()
     options = Options()
 
     driver = webdriver.Chrome(options=options)
@@ -19,21 +20,26 @@ def test_leave_validation():
     login_page.open()
 
     login_page.login(
-        "siddharth",
-        "siddharth123"
+    data["employee_username"],
+    data["employee_password"]
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
+    )
 
     driver.get(
         "http://127.0.0.1:5000/apply-leave"
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "apply-leave" in d.current_url.lower()
+    )
 
-    submit_btn = driver.find_element(
-        By.ID,
-        "submitBtn"
+    submit_btn = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable(
+            (By.ID, "submitBtn")
+        )
     )
 
     driver.execute_script(
@@ -41,16 +47,20 @@ def test_leave_validation():
         submit_btn
     )
 
-    time.sleep(1)
-
     driver.execute_script(
-        "arguments[0].click();",
-        submit_btn
+    "arguments[0].click();",
+    submit_btn
     )
 
-    time.sleep(1)
+    WebDriverWait(driver, 10).until(
+    EC.alert_is_present()
+    )
 
-    assert "apply-leave" in driver.current_url
+    alert = driver.switch_to.alert
+
+    assert "Reason must be at least 10 characters" in alert.text
+
+    alert.accept()
 
     driver.save_screenshot(
         "automation/screenshots/leave_validation.png"

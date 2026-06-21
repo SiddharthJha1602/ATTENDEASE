@@ -1,14 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import time
+from selenium.webdriver.support.ui import WebDriverWait
 import os
-
+from automation.utils import load_test_data
 from automation.pages.login_page import LoginPage
 from automation.pages.leave_page import LeavePage
 
 
 def test_apply_leave():
-
+    data = load_test_data()
     options = Options()
 
     driver = webdriver.Chrome(options=options)
@@ -20,17 +20,21 @@ def test_apply_leave():
     login_page.open()
 
     login_page.login(
-        "siddharth",
-        "siddharth123"
+        data["employee_username"],
+        data["employee_password"]
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "dashboard" in d.current_url.lower()
+    )
 
     driver.get(
-    "http://127.0.0.1:5000/apply-leave"
+        "http://127.0.0.1:5000/apply-leave"
     )
 
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(
+        lambda d: "apply-leave" in d.current_url.lower()
+    )
 
     leave_page = LeavePage(driver)
 
@@ -39,14 +43,16 @@ def test_apply_leave():
     )
 
     leave_page.apply_leave(
-    "Casual Leave",
-    "2026-06-25",
-    "2026-06-26",
-    "Family function leave request",
+    data["leave_type"],
+    data["leave_start_date"],
+    data["leave_end_date"],
+    data["leave_reason"],
     file_path
     )
 
-    time.sleep(3)
+    WebDriverWait(driver, 10).until(
+        lambda d: "leave" in d.current_url.lower()
+    )
 
     driver.save_screenshot(
         "automation/screenshots/leave_applied.png"
