@@ -13,9 +13,9 @@ https://attendease-q9vb.onrender.com/login
 
 ## Overview
 
-ATTENDEASE is a Human Resource Management System (HRMS) developed using Python and Flask. The project includes a complete Selenium-based automation testing framework built using PyTest and the Page Object Model (POM) design pattern.
+ATTENDEASE is a Human Resource Management System (HRMS) developed using Python and Flask. The project includes a complete Selenium-based automation testing framework built with PyTest and the Page Object Model (POM) design pattern.
 
-The automation framework validates critical HR workflows such as authentication, attendance tracking, leave management, and administrative approval processes.
+The automation suite validates critical business workflows including authentication, attendance management, leave management, and administrative approvals.
 
 ---
 
@@ -157,13 +157,13 @@ pip install -r requirements.txt
 
 ## Running Automated Tests
 
-Run all test cases:
+Execute all test cases:
 
 ```bash
 pytest automation/tests -v
 ```
 
-Generate HTML report:
+Generate an HTML report:
 
 ```bash
 pytest automation/tests -v --html=automation/reports/report.html
@@ -173,27 +173,26 @@ pytest automation/tests -v --html=automation/reports/report.html
 
 ## Test Artifacts
 
-### HTML Report
+The automation framework generates:
 
-Location:
+* HTML Execution Reports
+* Test Screenshots
+* Validation Logs
+* Detailed Test Results
+
+### Report Location
 
 ```text
 automation/reports/report.html
 ```
 
-### Screenshots
-
-Location:
+### Screenshot Location
 
 ```text
 automation/screenshots/
 ```
 
-### Failure Screenshots
-
-Automatically captured when a test fails.
-
-Location:
+### Failure Screenshot Location
 
 ```text
 automation/screenshots/failures/
@@ -201,96 +200,27 @@ automation/screenshots/failures/
 
 ---
 
-## Screenshots
-
-### Login Page
-
-![Login Page](automation/screenshots/login_success.png)
-
-### Attendance Marked Successfully
-
-![Attendance](automation/screenshots/attendance_marked.png)
-
-### Leave Application
-
-![Leave Application](automation/screenshots/leave_applied.png)
-
-### Leave Status
-
-![Leave Status](automation/screenshots/leave_status.png)
-
-### Invalid Login Validation
-
-![Invalid Login](automation/screenshots/login_failed.png)
-
-### Admin Leave Approval
-
-![Admin Approval](automation/screenshots/admin_approval.png)
-
----
-
-## Manual Test Cases
-
-The automation suite was designed based on manually prepared test cases covering:
-
-* Valid Login
-* Invalid Login
-* Empty Login Validation
-* Logout Functionality
-* Attendance Marking
-* Duplicate Attendance Validation
-* Leave Application
-* Leave Validation
-* Leave Status Tracking
-* Admin Leave Approval
-
-Manual test case document:
-
-```text
-automation/Manual_Test_Cases.md
-```
-
----
-
-## Bug Report
-
-A bug report was prepared during testing and validation activities.
-
-Document location:
-
-```text
-automation/Bug_Report.md
-```
-
-Sample observations:
-
-* Duplicate attendance prevention validation
-* Leave form validation checks
-* Admin approval workflow verification
-
----
-
 ## Results
 
-✅ 10 Automated Test Cases Executed Successfully
+✔ 10 Automated Test Cases Executed Successfully
 
-✅ Selenium WebDriver Framework Implemented
+✔ Selenium WebDriver Framework Implemented
 
-✅ Page Object Model (POM) Architecture Applied
+✔ Page Object Model (POM) Architecture Applied
 
-✅ Explicit Waits Implemented Using WebDriverWait
+✔ Explicit Waits Implemented Using WebDriverWait
 
-✅ Assertions Used in All Test Cases
+✔ Assertions Used in All Test Cases
 
-✅ Test Data Externalized Using JSON
+✔ Test Data Externalized Using JSON
 
-✅ HTML Execution Report Generated Using pytest-html
+✔ HTML Execution Report Generated Using pytest-html
 
-✅ Screenshots Captured for Failed Test Cases
+✔ Screenshots Captured for Failed Test Cases
 
-✅ Attendance, Leave, Login, Logout and Admin Modules Automated
+✔ Attendance, Leave, Login, Logout and Admin Modules Automated
 
-✅ Application Successfully Deployed on Render
+✔ Application Successfully Deployed on Render
 
 ---
 
@@ -321,11 +251,3 @@ GitHub:
 https://github.com/SiddharthJha1602
 
 ---
-
-## Project Status
-
-✅ Completed
-
-✅ Tested Successfully
-
-✅ Ready for Internship Submission

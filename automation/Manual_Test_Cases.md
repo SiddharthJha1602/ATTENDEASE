@@ -107,7 +107,7 @@ Expected Result:
 
 ---
 
-## Tc10 - Admin Leave Approval
+## TC10 - Admin Leave Approval
 
 Steps:
 1. Login as Admin
