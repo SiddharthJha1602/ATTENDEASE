@@ -138,6 +138,7 @@ ATTENDEASE
 
 ---
 
+
 ## Installation
 
 Clone the repository:
@@ -251,3 +252,120 @@ GitHub:
 https://github.com/SiddharthJha1602
 
 ---
+
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/SiddharthJha1602/ATTENDEASE.git
+cd ATTENDEASE
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Running Automated Tests
+
+Execute all test cases:
+
+```bash
+pytest automation/tests -v
+```
+
+Generate an HTML report:
+
+```bash
+pytest automation/tests -v --html=automation/reports/report.html
+```
+
+---
+
+## Test Artifacts
+
+The automation framework generates:
+
+* HTML Execution Reports
+* Test Screenshots
+* Validation Logs
+* Detailed Test Results
+
+### Report Location
+
+```text
+automation/reports/report.html
+```
+
+### Screenshot Location
+
+```text
+automation/screenshots/
+```
+
+### Failure Screenshot Location
+
+```text
+automation/screenshots/failures/
+```
+
+---
+
+## Results
+
+✔ 10 Automated Test Cases Executed Successfully
+
+✔ Selenium WebDriver Framework Implemented
+
+✔ Page Object Model (POM) Architecture Applied
+
+✔ Explicit Waits Implemented Using WebDriverWait
+
+✔ Assertions Used in All Test Cases
+
+✔ Test Data Externalized Using JSON
+
+✔ HTML Execution Report Generated Using pytest-html
+
+✔ Screenshots Captured for Failed Test Cases
+
+✔ Attendance, Leave, Login, Logout and Admin Modules Automated
+
+✔ Application Successfully Deployed on Render
+
+---
+
+## Learning Outcomes
+
+Through this project, the following concepts were implemented and practiced:
+
+* Selenium WebDriver Automation
+* Page Object Model (POM)
+* Automated Testing with PyTest
+* Explicit Waits and Synchronization
+* Test Data Management using JSON
+* Screenshot Capture and Reporting
+* Flask Web Application Testing
+* Git and GitHub Version Control
+* Deployment on Render
+
+---
+
+## Author
+
+**Siddharth Jha**
+
+B.Tech Computer Science Engineering
+Manipal University Jaipur
+
+GitHub:
+https://github.com/SiddharthJha1602
+
+---
+
+
