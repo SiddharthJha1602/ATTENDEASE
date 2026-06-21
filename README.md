@@ -252,10 +252,3 @@ https://github.com/SiddharthJha1602
 
 ---
 
-## Project Status
-
-✅ Completed
-
-✅ Tested Successfully
-
-✅ Ready for Internship Submission
