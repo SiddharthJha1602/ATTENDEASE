@@ -13,7 +13,7 @@ https://attendease-q9vb.onrender.com/login
 
 ## Overview
 
-ATTENDEASE is a Human Resource Management System (HRMS) developed using Python and Flask. The project includes a complete Selenium-based automation testing framework built with PyTest and the Page Object Model (POM) design pattern.
+ATTENDEASE is a Human Resource Management System (HRMS) developed using Python and Flask. The project includes a complete Selenium automation testing framework built with PyTest and the Page Object Model (POM) design pattern.
 
 The automation suite validates critical business workflows including authentication, attendance management, leave management, and administrative approvals.
 
@@ -104,27 +104,13 @@ ATTENDEASE
 │
 ├── automation
 │   ├── pages
-│   │   ├── login_page.py
-│   │   ├── attendance_page.py
-│   │   ├── leave_page.py
-│   │   └── admin_page.py
-│   │
 │   ├── tests
-│   │   ├── test_valid_login.py
-│   │   ├── test_invalid_login.py
-│   │   ├── test_empty_login.py
-│   │   ├── test_logout.py
-│   │   ├── test_mark_attendance.py
-│   │   ├── test_duplicate_attendance.py
-│   │   ├── test_apply_leave.py
-│   │   ├── test_leave_validation.py
-│   │   ├── test_view_leave_status.py
-│   │   └── test_admin_approval.py
-│   │
 │   ├── screenshots
 │   ├── reports
 │   ├── test_data.json
-│   └── conftest.py
+│   ├── conftest.py
+│   ├── Manual_Test_Cases.md
+│   └── Bug_Report.md
 │
 ├── templates
 ├── static
@@ -138,7 +124,6 @@ ATTENDEASE
 
 ---
 
-
 ## Installation
 
 Clone the repository:
@@ -201,117 +186,22 @@ automation/screenshots/failures/
 
 ---
 
-## Results
+## Supporting Documents
 
-✔ 10 Automated Test Cases Executed Successfully
+### Manual Test Cases
 
-✔ Selenium WebDriver Framework Implemented
-
-✔ Page Object Model (POM) Architecture Applied
-
-✔ Explicit Waits Implemented Using WebDriverWait
-
-✔ Assertions Used in All Test Cases
-
-✔ Test Data Externalized Using JSON
-
-✔ HTML Execution Report Generated Using pytest-html
-
-✔ Screenshots Captured for Failed Test Cases
-
-✔ Attendance, Leave, Login, Logout and Admin Modules Automated
-
-✔ Application Successfully Deployed on Render
-
----
-
-## Learning Outcomes
-
-Through this project, the following concepts were implemented and practiced:
-
-* Selenium WebDriver Automation
-* Page Object Model (POM)
-* Automated Testing with PyTest
-* Explicit Waits and Synchronization
-* Test Data Management using JSON
-* Screenshot Capture and Reporting
-* Flask Web Application Testing
-* Git and GitHub Version Control
-* Deployment on Render
-
----
-
-## Author
-
-**Siddharth Jha**
-
-B.Tech Computer Science Engineering
-Manipal University Jaipur
-
-GitHub:
-https://github.com/SiddharthJha1602
-
----
-
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/SiddharthJha1602/ATTENDEASE.git
-cd ATTENDEASE
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Running Automated Tests
-
-Execute all test cases:
-
-```bash
-pytest automation/tests -v
-```
-
-Generate an HTML report:
-
-```bash
-pytest automation/tests -v --html=automation/reports/report.html
-```
-
----
-
-## Test Artifacts
-
-The automation framework generates:
-
-* HTML Execution Reports
-* Test Screenshots
-* Validation Logs
-* Detailed Test Results
-
-### Report Location
+Manual test cases prepared before automation are available in:
 
 ```text
-automation/reports/report.html
+automation/Manual_Test_Cases.md
 ```
 
-### Screenshot Location
+### Bug Report
+
+A bug report documenting identified usability observations and defects is available in:
 
 ```text
-automation/screenshots/
-```
-
-### Failure Screenshot Location
-
-```text
-automation/screenshots/failures/
+automation/Bug_Report.md
 ```
 
 ---
@@ -367,5 +257,4 @@ GitHub:
 https://github.com/SiddharthJha1602
 
 ---
-
 
